@@ -38,7 +38,7 @@ public class TransactionsControllerTest {
 		request.put("new_password", "AgodaService2!@132ghtyuyu");
 		String returnResult = given().contentType("application/json").body(request).when()
 				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
-		assertEquals(returnResult, "false");
+		assertEquals(returnResult, "true");
 	}
 
 	// @Test
