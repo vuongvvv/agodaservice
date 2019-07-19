@@ -24,168 +24,95 @@ public class TransactionsControllerTest {
 
 	protected static String BASE_STRING = "http://localhost:12347/agodaservice";
 
-	// @Test
-	// public void getNotFoundTransaction() throws Exception {
-	// get(BASE_STRING + "/transactions/112313")
-	// .then()
-	// .statusCode(404);
-	// }
+	protected static String oldPassword="AgodaService2!@1TestData";
 
 	@Test
-	public void givenValidPasswordsWhenCallChangePasswordApiThenReturnSuccess() throws Exception {
+	public void givenValidPasswordsWhenCallChangePasswordApiThenReturnTrue() throws Exception {
 		Map<String, String> request = new HashMap<>();
-		request.put("old_password", "AgodaService2!@1");
+		request.put("old_password", oldPassword);
 		request.put("new_password", "AgodaService2!@132ghtyuyu");
 		String returnResult = given().contentType("application/json").body(request).when()
 				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
 		assertEquals(returnResult, "true");
 	}
 
-	// @Test
-	// public void createTransactionWithMalformedRequest() throws Exception {
-	//
-	// given()
-	// .contentType("application/json")
-	// .body("{\"name\":\"Jimi Hendrix\"}")
-	// .expect()
-	// .statusCode(400)
-	// .when()
-	// .post(BASE_STRING + "/transactions");
-	//
-	// }
-	//
-	// @Test
-	// public void createTransaction() throws Exception {
-	// given()
-	// .contentType("application/json")
-	// .body("{\"amount\": 20.8,\"type\": \"cars\" }")
-	// .expect()
-	// .statusCode(201)
-	// .when()
-	// .post(BASE_STRING + "/transactions");
-	//
-	// }
-	//
-	// @Test
-	// public void createTransactionWithParents() throws Exception {
-	//
-	// String location = given()
-	// .contentType("application/json")
-	// .body("{\"amount\": 20.8,\"type\": \"cars\" }")
-	// .expect()
-	// .statusCode(201)
-	// .when()
-	// .post(BASE_STRING + "/transactions")
-	// .then()
-	// .extract()
-	// .header("Location");
-	//
-	//
-	// Integer parentId = given()
-	// .contentType("application/json")
-	// .expect()
-	// .statusCode(200)
-	// .when()
-	// .get(location)
-	// .then()
-	// .extract()
-	// .path("transaction_id");
-	//
-	// given()
-	// .contentType("application/json")
-	// .body("{\"amount\": 20,\"type\": \"cars\", \"parent_id\": " + parentId + "}")
-	// .expect()
-	// .statusCode(201)
-	//
-	// .when()
-	// .post(BASE_STRING + "/transactions");
-	//
-	// }
-	//
-	// @Test
-	// public void calculateSumOfNotExistingTransaction() throws Exception {
-	// get(BASE_STRING + "/transactions/112313/sum")
-	// .then()
-	// .statusCode(404);
-	// }
-	//
-	// @Test
-	// public void calculateSum() throws Exception {
-	// String location = given()
-	// .contentType("application/json")
-	// .body("{\"amount\": 20.8,\"type\": \"cars\" }")
-	// .expect()
-	// .statusCode(201)
-	// .when()
-	// .post(BASE_STRING + "/transactions")
-	// .then()
-	// .extract()
-	// .header("Location");
-	//
-	//
-	// Integer parentId = given()
-	// .contentType("application/json")
-	// .expect()
-	// .statusCode(200)
-	// .when()
-	// .get(location)
-	// .then()
-	// .extract()
-	// .path("transaction_id");
-	//
-	// for (int i = 1; i <= 5; i++) {
-	// given()
-	// .contentType("application/json")
-	// .body("{\"amount\": 20,\"type\": \"cars\", \"parent_id\": " + parentId + "}")
-	// .expect()
-	// .statusCode(201)
-	// .when()
-	// .post(BASE_STRING + "/transactions");
-	// }
-	//
-	//
-	// given()
-	// .contentType("application/json")
-	// .expect()
-	// .statusCode(200)
-	// .body("sum", is(100f))
-	// .when()
-	// .get(BASE_STRING + "/transactions/" + parentId + "/sum")
-	// .then()
-	// .extract()
-	// .path("sum");
-	// }
-	//
-	// @Test
-	// public void getTransactionsByType() throws Exception {
-	//
-	// for (int i = 1; i <= 3; i++) {
-	// given()
-	// .contentType("application/json")
-	// .body("{\"amount\": 20,\"type\": \"clothes\"}")
-	// .expect()
-	// .statusCode(201)
-	// .when()
-	// .post(BASE_STRING + "/transactions");
-	// }
-	//
-	//
-	// given()
-	// .contentType("application/json")
-	// .body("{\"amount\": 20,\"type\": \"bus\"}")
-	// .expect()
-	// .statusCode(201)
-	// .when()
-	// .post(BASE_STRING + "/transactions");
-	//
-	//
-	// given()
-	// .contentType("application/json")
-	// .expect()
-	// .body("size()", is(3))
-	// .statusCode(200)
-	// .when()
-	// .get(BASE_STRING + "/types/clothes");
-	//
-	// }
+	@Test
+	public void givenLessThan18CharPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", oldPassword);
+		request.put("new_password", "AgodaDef2!Service");
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
+	
+	@Test
+	public void givenOnlyUpperCasePasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", oldPassword);
+		request.put("new_password", "AGODASERVICE@123TEST");
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
+	
+	@Test
+	public void givenOnlyLowerCasePasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", oldPassword);
+		request.put("new_password", "agodaservice@123test");
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
+	
+	@Test
+	public void givenNoNumericCharPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", oldPassword);
+		request.put("new_password", "AgodaService@TestVV");
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
+	
+	@Test
+	public void givenNoSpecialCharPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", oldPassword);
+		request.put("new_password", "AgodaService12TestVV");
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
+	
+	@Test
+	public void givenFourDuplicatedCharPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", oldPassword);
+		request.put("new_password", "AgodaService2!@132VVVVV");
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
+	
+	@Test
+	public void given50PercentNumberPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", oldPassword);
+		request.put("new_password", "AgodaService!@13245678298980");
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
+
+	@Test
+	public void givenInvalidSimilarityPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", oldPassword);
+		request.put("new_password", "AgodaService2!@1TestData12");
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
 }

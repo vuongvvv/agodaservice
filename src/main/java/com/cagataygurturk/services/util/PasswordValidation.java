@@ -2,7 +2,7 @@ package com.cagataygurturk.services.util;
 
 public class PasswordValidation {
 	public static boolean isOldPassword(String password) {
-		if (password.equals("AgodaService2!@1")) {
+		if (password.equals("AgodaService2!@1TestData")) {
 			return true;
 		}
 		return false;
