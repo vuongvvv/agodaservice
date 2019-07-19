@@ -29,7 +29,7 @@ public class TransactionServiceImpl implements TransactionService {
 		} else if (!PasswordValidation.isValidPassword(newPassword)) {
 			System.out.println("isValidPassword");
 			return false;
-		} else if (StringSimilarity.similarity(oldPassword, newPassword) * 100 > 80) {
+		} else if (StringSimilarity.isSimilarityExceedPercent(oldPassword, newPassword, 80)) {
 			System.out.println("similarity");
 			return false;
 		}
