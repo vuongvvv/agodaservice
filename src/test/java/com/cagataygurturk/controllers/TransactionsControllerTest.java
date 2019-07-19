@@ -37,6 +37,16 @@ public class TransactionsControllerTest {
 	}
 
 	@Test
+	public void givenInvalidOldPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", "AgodaService2!@1TestData1");
+		request.put("new_password", "AgodaService2!@132ghtyuyu");
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
+	
+	@Test
 	public void givenLessThan18CharPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
@@ -87,10 +97,20 @@ public class TransactionsControllerTest {
 	}
 	
 	@Test
-	public void givenFourDuplicatedCharPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenFourDuplicatedCharsPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", "AgodaService2!@132VVVVV");
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
+	
+	@Test
+	public void givenMoreThan4SpecialCharsPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", oldPassword);
+		request.put("new_password", "Ago$%daS*ervice2!@13");
 		String returnResult = given().contentType("application/json").body(request).when()
 				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
 		assertEquals(returnResult, "false");

@@ -70,22 +70,13 @@ public class PasswordValidation {
 	}
 
 	public static boolean isSpecialCharsExceed(String str, int numberOfSpecialChars) {
-		StringBuilder stringBuilder = new StringBuilder();
+		int count = 0;
 		for (int i = 0; i < str.length(); i++) {
-			int count = 1;
-			if (isContainSpecialCharacters(str)) {
-				stringBuilder.append(str.charAt(i));
-				for (int j = i + 1; j < str.length(); j++) {
-					if (str.charAt(i) == str.charAt(j)) {
-						count++;
-					}
-				}
-			}
-			if (count > numberOfSpecialChars) {
-				return true;
+			if (isContainSpecialCharacters(str.substring(i, i + 1))) {
+				count++;
 			}
 		}
-		return false;
+		return count > numberOfSpecialChars ? true : false;
 	}
 
 	public static boolean isPercentOfNumberOfNumericMoreThan(String str, int limitPercent) {
@@ -113,6 +104,8 @@ public class PasswordValidation {
 		} else if (!isContainSpecialCharacters(password)) {
 			return false;
 		} else if (isDuplicatedCharsExceed(password, 4)) {
+			return false;
+		} else if (isSpecialCharsExceed(password, 4)) {
 			return false;
 		} else if (isPercentOfNumberOfNumericMoreThan(password, 49)) {
 			return false;
