@@ -47,7 +47,7 @@ public class TransactionsControllerTest {
 	}
 	
 	@Test
-	public void givenOnlyUpperCasePasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenNonLowerCasePasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", "AGODASERVICE@123TEST");
@@ -57,7 +57,7 @@ public class TransactionsControllerTest {
 	}
 	
 	@Test
-	public void givenOnlyLowerCasePasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenNonUpperCasePasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", "agodaservice@123test");

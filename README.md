@@ -1,3 +1,10 @@
+## Environment set up
+
+```
+1. Install Java
+2. Set up Maven
+```
+
 ## Run and Test
 
 To run the application type

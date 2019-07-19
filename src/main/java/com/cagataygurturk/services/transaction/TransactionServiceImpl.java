@@ -15,14 +15,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Autowired
 	public TransactionServiceImpl(@Qualifier("transaction_repository_inmemory") TransactionRepository repository) {
-
 		this.repository = repository;
-
 	}
 
 	public Boolean changePassword(String oldPassword, String newPassword) {
-		System.out.println(oldPassword);
-		System.out.println(newPassword);
 		if (!PasswordValidation.isOldPassword(oldPassword)) {
 			System.out.println("oldPassword");
 			return false;
