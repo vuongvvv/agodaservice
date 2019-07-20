@@ -24,15 +24,16 @@ public class TransactionsControllerTest {
 	protected static String BASE_STRING = "http://localhost:12347/agodaservice";
 
 	protected static String oldPassword = "AgodaService2!@1TestData";
-	protected static String validNewPassword = "AgodaServiceTestAgodaServiceTestAgodaServiAaAaA!@#$0123456789012345678901234567890123456789012345678";
-	protected static String invalidOldPassword = "AgodaService2!@1TestData1";
+	protected static String validNewPassword = "AgodaServiceVVVVAgodaServiceTestAgodaServiAaAaA!@#$0123456789012345678901234567890123456789012345678";
+	protected static String eighteenAlphanumericAndSpecialCharsPassword = "AgodaService2!@1Te";
+	protected static String invalidOldPassword = oldPassword.concat("1");
 	protected static String lessThan18AlphanumericAndSpecialCharsPassword = "AgodaDef2!Service";
 	protected static String noLowerCasePassword = validNewPassword.toUpperCase();
 	protected static String noUpperCasePassword = validNewPassword.toLowerCase();
 	protected static String noNumericPassword = "AgodaService@TestVV";
 	protected static String noSpecialCharsPassword = "AgodaService12TestVV";
 	protected static String invalidSpecialCharsPassword = "AgodaService12%^TestVV";
-	protected static String moreThan4DuplicatedCharsPassword = validNewPassword.concat("#####");
+	protected static String moreThan4DuplicatedCharsPassword = validNewPassword.concat("vvvvv");
 	protected static String moreThan4SpecialCharsPassword = "Ago!@daS*ervice2!#13";
 	protected static String fiftyPercentNumericCharsPassword = "AgodaService!@13245678298980";
 	protected static String similarityPassword = "AgodaService2!@1TestData12";
@@ -42,6 +43,16 @@ public class TransactionsControllerTest {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", validNewPassword);
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "true");
+	}
+	
+	@Test
+	public void given18AlphanumericAndSpecialCharsPasswordsWhenCallChangePasswordApiThenReturnTrue() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", oldPassword);
+		request.put("new_password", eighteenAlphanumericAndSpecialCharsPassword);
 		String returnResult = given().contentType("application/json").body(request).when()
 				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
 		assertEquals(returnResult, "true");
