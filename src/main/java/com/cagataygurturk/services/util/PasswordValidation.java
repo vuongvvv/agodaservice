@@ -43,23 +43,21 @@ public class PasswordValidation {
 	}
 
 	public static boolean isContainSpecialCharacters(String str) {
-		String specialCharactersRegex = ".*[ !\\\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~].*";
+		String specialCharactersRegex = ".*[!@#$&*].*";
 		if (str.matches(specialCharactersRegex)) {
 			return true;
 		}
 		return false;
 	}
-
+	
 	public static boolean isDuplicatedCharsExceed(String str, int numberOfDuplicated) {
-		StringBuilder stringBuilder = new StringBuilder();
-		for (int i = 0; i < str.length(); i++) {
+		for (int i = 0; i < str.length() - numberOfDuplicated; i++) {
 			int count = 1;
-			if (stringBuilder.toString().indexOf(str.charAt(i)) == -1) {
-				stringBuilder.append(str.charAt(i));
-				for (int j = i + 1; j < str.length(); j++) {
-					if (str.charAt(i) == str.charAt(j)) {
-						count++;
-					}
+			for (int j = 1; j <= numberOfDuplicated; j++) {
+				if (str.charAt(i) == str.charAt(i + j)) {
+					count++;
+				} else {
+					break;
 				}
 			}
 			if (count > numberOfDuplicated) {
