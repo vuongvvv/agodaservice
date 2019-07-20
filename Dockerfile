@@ -20,6 +20,6 @@ COPY settings-docker.xml /usr/share/maven/ref/
 COPY pom.xml /usr/local/service/pom.xml
 COPY src /usr/local/service/src
 WORKDIR /usr/local/service
+EXPOSE 8080
 
-
-CMD ["mvn","test"]
+CMD ["mvn","spring-boot:run"]
