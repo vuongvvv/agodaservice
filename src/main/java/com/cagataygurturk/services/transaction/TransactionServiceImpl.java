@@ -20,13 +20,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 	public Boolean changePassword(String oldPassword, String newPassword) {
 		if (!PasswordValidation.isOldPassword(oldPassword)) {
-			System.out.println("oldPassword");
 			return false;
 		} else if (!PasswordValidation.isValidPassword(newPassword)) {
-			System.out.println("isValidPassword");
 			return false;
 		} else if (StringSimilarity.isSimilarityExceedPercent(oldPassword, newPassword, 80)) {
-			System.out.println("similarity");
 			return false;
 		}
 		return true;
