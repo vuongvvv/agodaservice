@@ -4,6 +4,8 @@ import com.cagataygurturk.services.transaction.repository.TransactionRepository;
 import com.cagataygurturk.services.util.PasswordValidation;
 import com.cagataygurturk.services.util.StringSimilarity;
 
+import javax.validation.constraints.Null;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,9 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	public Boolean changePassword(String oldPassword, String newPassword) {
+		if(oldPassword==null || newPassword == null) {
+			return false;
+		}
 		if (!PasswordValidation.isOldPassword(oldPassword)) {
 			return false;
 		} else if (!PasswordValidation.isValidPassword(newPassword)) {

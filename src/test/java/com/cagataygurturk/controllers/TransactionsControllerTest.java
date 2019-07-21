@@ -39,7 +39,7 @@ public class TransactionsControllerTest {
 	protected static String similarityPassword = "AgodaService2!@1TestData12";
 
 	@Test
-	public void givenValidPasswordsWhenCallChangePasswordApiThenReturnTrue() throws Exception {
+	public void givenValidPasswords_WhenCallChangePasswordApi_ThenReturnTrue() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", validNewPassword);
@@ -49,7 +49,7 @@ public class TransactionsControllerTest {
 	}
 	
 	@Test
-	public void given18AlphanumericAndSpecialCharsPasswordsWhenCallChangePasswordApiThenReturnTrue() throws Exception {
+	public void given18AlphanumericAndSpecialCharsPasswords_WhenCallChangePasswordApi_ThenReturnTrue() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", eighteenAlphanumericAndSpecialCharsPassword);
@@ -59,7 +59,7 @@ public class TransactionsControllerTest {
 	}
 
 	@Test
-	public void givenInvalidOldPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenInvalidOldPasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", invalidOldPassword);
 		request.put("new_password", validNewPassword);
@@ -67,9 +67,29 @@ public class TransactionsControllerTest {
 				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
 		assertEquals(returnResult, "false");
 	}
+	
+	@Test
+	public void givenEmptyNewPasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", oldPassword);
+		request.put("new_password", null);
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
+	
+	@Test
+	public void givenEmptyOldPasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
+		Map<String, String> request = new HashMap<>();
+		request.put("old_password", null);
+		request.put("new_password", validNewPassword);
+		String returnResult = given().contentType("application/json").body(request).when()
+				.put(BASE_STRING.concat("/changepassword")).then().statusCode(200).extract().response().asString();
+		assertEquals(returnResult, "false");
+	}
 
 	@Test
-	public void givenLessThan18AlphanumericAndSpecialCharsPasswordsWhenCallChangePasswordApiThenReturnFalse()
+	public void givenLessThan18AlphanumericAndSpecialCharsPasswords_WhenCallChangePasswordApi_ThenReturnFalse()
 			throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
@@ -80,7 +100,7 @@ public class TransactionsControllerTest {
 	}
 
 	@Test
-	public void givenNoLowerCasePasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenNoLowerCasePasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", noLowerCasePassword);
@@ -90,7 +110,7 @@ public class TransactionsControllerTest {
 	}
 
 	@Test
-	public void givenNoUpperCasePasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenNoUpperCasePasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", noUpperCasePassword);
@@ -100,7 +120,7 @@ public class TransactionsControllerTest {
 	}
 
 	@Test
-	public void givenNoNumericCharPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenNoNumericCharPasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", noNumericPassword);
@@ -110,7 +130,7 @@ public class TransactionsControllerTest {
 	}
 
 	@Test
-	public void givenNoSpecialCharPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenNoSpecialCharPasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", noSpecialCharsPassword);
@@ -120,7 +140,7 @@ public class TransactionsControllerTest {
 	}
 
 	@Test
-	public void givenInvalidSpecialCharsPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenInvalidSpecialCharsPasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", invalidSpecialCharsPassword);
@@ -130,7 +150,7 @@ public class TransactionsControllerTest {
 	}
 
 	@Test
-	public void givenMoreThanFourDuplicatedCharsPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenMoreThanFourDuplicatedCharsPasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", moreThan4DuplicatedCharsPassword);
@@ -140,7 +160,7 @@ public class TransactionsControllerTest {
 	}
 
 	@Test
-	public void givenMoreThan4SpecialCharsPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenMoreThan4SpecialCharsPasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", moreThan4SpecialCharsPassword);
@@ -150,7 +170,7 @@ public class TransactionsControllerTest {
 	}
 
 	@Test
-	public void given50PercentNumberPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void given50PercentNumberPasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", fiftyPercentNumericCharsPassword);
@@ -160,7 +180,7 @@ public class TransactionsControllerTest {
 	}
 
 	@Test
-	public void givenInvalidSimilarityPasswordsWhenCallChangePasswordApiThenReturnFalse() throws Exception {
+	public void givenInvalidSimilarityPasswords_WhenCallChangePasswordApi_ThenReturnFalse() throws Exception {
 		Map<String, String> request = new HashMap<>();
 		request.put("old_password", oldPassword);
 		request.put("new_password", similarityPassword);
