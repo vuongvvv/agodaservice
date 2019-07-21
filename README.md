@@ -47,7 +47,7 @@ Old Password must be: AgodaService2!@1TestData
 ## Dockerimage URL
 
 ```
-https://cloud.docker.com/repository/docker/vuongvvv/agodatest
+https://hub.docker.com/r/vuongvvv/agodatest
 ```
 
 ## Docker run
